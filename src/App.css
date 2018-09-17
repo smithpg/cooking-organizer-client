@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto|Slabo+27px');
+
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+
+  font-family: 'Roboto', sans-serif;
+}
+
+h1,h2,h3,h4,h5{
+  font-family: 'Slabo 27px', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.App{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App-header{
+  position: fixed;
+  width: 100%;
+  background-color: #1D2733;
+  color: white;
+  padding: 0.25rem 0.75rem;
+}
+
+.App-content{
+  display: flex;
+  flex-grow: 1;
+}
+
