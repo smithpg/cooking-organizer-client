@@ -22,7 +22,7 @@ const Style = styled.li`
       : "0px 2px 3px rgba(0, 0, 0, 0.3), 0px 0px 10px rgba(0, 0, 0, 0.1);"};
   background-color: ${props => (props.highlighted ? "#38FF60" : "white")};
   position: relative;
-  transition: all 200ms ease-in-out;
+  /* transition: all 200ms ease-in-out; */
 
   z-index: ${props => (props.highlighted ? 2 : 0)};
   .name {

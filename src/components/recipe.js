@@ -44,8 +44,9 @@ const Style = styled(PosedDiv)`
     transition: opacity 100ms;
     box-sizing: border-box;
 
-    background: radial-gradient(white, #38ff60);
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3), inset 0px 0px 15px 3px #38ff60;
+    background-color: #38ff60;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3),
+      inset 0px 0px 15px 3px rgba(255, 255, 255, 0.3);
     z-index: -1;
     opacity: 0;
   }

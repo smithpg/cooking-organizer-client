@@ -10,19 +10,22 @@ import Input from "./input";
 import PantryItem from "./pantryItem";
 
 const Container = styled.div`
+  height: 500px;
+
   .itemList {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
     align-content: flex-start;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
-    height: 100%;
+    height: 80%;
     width: 50vw;
   }
 
   .queryInput {
     padding: 1.5rem;
+    height: 20%;
     border-radius: 10px;
     border-bottom: 2px dashed #eeeeee;
     border-right: 2px dashed #eeeeee;
@@ -32,15 +35,15 @@ const Container = styled.div`
 
 const PosedItem = posed.span({
   preEnter: {
-    opacity: 0,
-    x: props => props.i * Math.floor(-100 * Math.random()),
-    y: -200
+    opacity: 0
+    // x: props => props.i * Math.floor(-100 * Math.random()),
+    // y: -200
   },
 
   enter: {
-    opacity: 1,
-    x: 0,
-    y: 0
+    opacity: 1
+    // x: 0,
+    // y: 0
     // transition: { type: "spring", stiffness: 200 }
   },
   exit: {
