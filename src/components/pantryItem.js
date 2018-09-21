@@ -55,10 +55,12 @@ const StyledMatches = ({ name, query }) => {
   let startIndex = 0,
     matchIndex;
 
-  const subSpans = [];
+  const subSpans = [],
+    capsQuery = query.toUpperCase(),
+    capsName = name.toUpperCase();
 
   while (true) {
-    matchIndex = name.indexOf(query, startIndex);
+    matchIndex = capsName.indexOf(capsQuery, startIndex);
 
     if (matchIndex === -1) {
       if (startIndex != name.length) {

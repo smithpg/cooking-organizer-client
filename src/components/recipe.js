@@ -76,6 +76,7 @@ const Style = styled(PosedDiv)`
   }
 
   .ingredient {
+    text-transform: capitalize;
   }
 `;
 

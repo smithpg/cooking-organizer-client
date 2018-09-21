@@ -18,6 +18,11 @@ const Style = styled.div`
   margin-top: 40px;
   height: calc(100vh - 40px);
   display: flex;
+
+  @media screen and (max-width: 400px) {
+    flex-direction: column;
+  }
+
   justify-content: center;
   align-items: center;
 

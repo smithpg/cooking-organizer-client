@@ -77,7 +77,7 @@ class RecipeForm extends Component {
   onChangeIngredient(index, e) {
     const newIngredients = this.state.ingredients.slice();
 
-    if (e.target.value === "" && index > 0) {
+    if (e.target.value === "" && newIngredients.length > 1) {
       // If the text value of an input other than the first
       // has been deleted, remove the input
       newIngredients.splice(index, 1);
