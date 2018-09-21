@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import Input from "./input";
+import Button from "./button";
 
 class PantryItemForm extends Component {
   constructor(props) {
@@ -34,26 +35,21 @@ class PantryItemForm extends Component {
           type="text"
           name="name"
           placeholder="Add an item..."
-          labelText="test text"
           value={this.state.name}
-          autoComplete="on"
+          autoComplete="off"
           onChange={this.onChange}
         />
-        {/* <input 
-                    type="text" 
-                    name="name" 
-                    placeholder="Add an item..."
-                    value={this.state.name}
-                    onChange={this.onChange}
-                /> */}
         <label htmlFor="quantity">Quantity</label>
-        <input
+        <Input
           type="number"
           name="quantity"
+          placeholder="0"
           value={this.state.quantity}
+          autoComplete="off"
           onChange={this.onChange}
+          rem="4"
         />
-        <button>Add</button>
+        <Button>Add</Button>
       </form>
     );
   }

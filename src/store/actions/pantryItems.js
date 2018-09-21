@@ -6,6 +6,7 @@ import {
   ADD_PANTRY_ITEM,
   REMOVE_PANTRY_ITEM,
   HIGHLIGHT_ITEMS,
+  REMOVE_HIGHLIGHTS,
   FETCH_PANTRY_ITEMS,
   FETCH_FAILURE
 } from "../actionTypes";
@@ -14,23 +15,22 @@ import apiCall from "../../services/api";
 import { addError, removeError } from "./error";
 
 function normalizeItem(item) {
+  console.log(item);
   return {
     name: item.name,
     quantity: item.quantity,
-    id: item._id
+    id: item._id,
+    highlighted: false
   };
 }
 
-export function deletePantryItem(itemId, userId) {
+export function deletePantryItem(userId, itemId) {
   return dispatch => {
     return new Promise((resolve, reject) => {
       return apiCall("delete", `/users/${userId}/pantry/${itemId}`)
         .then(() => {
           dispatch(removeError());
-          dispatch({
-            type: REMOVE_PANTRY_ITEM,
-            itemId
-          });
+          dispatch({ type: REMOVE_PANTRY_ITEM, itemId });
           resolve("Item deleted successfully.");
         })
         .catch(err => {
@@ -84,9 +84,20 @@ export function fetchPantryItems(userId) {
   };
 }
 
-export function highlightPantryItems(ingredients) {
+export function highlightMatchingPantryItems(ingredients) {
   return {
     ingredients,
-    type: HIGHLIGHT_ITEMS
+    type: HIGHLIGHT_ITEMS,
+    meta: {
+      debounce: {
+        time: 400,
+        // The action will be dispatched at the beginning of the debounce and not at the end
+        leading: false,
+        trailing: true
+      }
+    }
   };
+}
+export function removeHighlights(ingredients) {
+  return { type: REMOVE_HIGHLIGHTS };
 }

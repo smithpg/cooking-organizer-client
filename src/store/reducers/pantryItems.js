@@ -4,12 +4,12 @@ import {
   SET_PANTRY_ITEMS,
   ADD_PANTRY_ITEM,
   REMOVE_PANTRY_ITEM,
-  HIGHLIGHT_ITEMS
+  HIGHLIGHT_ITEMS,
+  REMOVE_HIGHLIGHTS
 } from "../actionTypes";
 
 const DEFAULT_STATE = {
   fetching: false,
-  highlighted: [],
   items: []
 };
 
@@ -46,11 +46,33 @@ export default (state = DEFAULT_STATE, action) => {
       };
 
     case HIGHLIGHT_ITEMS:
+      if (action.ingredients) {
+        const uppercaseIngredients = action.ingredients.map(ingredient =>
+          ingredient.toUpperCase()
+        );
+        return {
+          ...state,
+          items: state.items.map(item => {
+            if (
+              uppercaseIngredients.some(
+                ingredient => ingredient === item.name.toUpperCase()
+              )
+            ) {
+              return { ...item, highlighted: true };
+            } else return { ...item, highlighted: false };
+          })
+        };
+      } else {
+        return {
+          ...state,
+          items: state.items.map(item => ({ ...item, highlighted: false }))
+        };
+      }
+
+    case REMOVE_HIGHLIGHTS:
       return {
         ...state,
-        highlighted: state.items.filter(item =>
-          action.ingredients.includes(item)
-        )
+        items: state.items.map(item => ({ ...item, highlighted: false }))
       };
 
     default:

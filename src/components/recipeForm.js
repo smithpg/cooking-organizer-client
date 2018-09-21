@@ -1,6 +1,38 @@
 import React, { Component } from "react";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEdit,
+  faTrash,
+  faWindowClose
+} from "@fortawesome/free-solid-svg-icons";
 
 import Input from "./input";
+import Button from "./button";
+
+const StyledForm = styled.form`
+  ol {
+    margin-left: 3rem;
+  }
+
+  .form-error-message {
+    width: auto;
+
+    border-radius: 5px;
+    border: 3px solid red;
+    padding: 0.5rem;
+
+    background-color: white;
+
+    color: red;
+    text-transform: uppercase;
+
+    .dismiss {
+      margin-right: 0.5rem;
+      cursor: pointer;
+    }
+  }
+`;
 
 class RecipeForm extends Component {
   constructor(props) {
@@ -15,16 +47,21 @@ class RecipeForm extends Component {
     this.onChange = this.onChange.bind(this);
     this.onChangeIngredient = this.onChangeIngredient.bind(this);
     this.deleteIngredient = this.deleteIngredient.bind(this);
+    this.dismissError = this.dismissError.bind(this);
     this.onSubmitAttempt = this.onSubmitAttempt.bind(this);
   }
 
-  deleteIngredient(e) {
+  dismissError(e) {
+    this.setState({ message: "" });
+  }
+
+  deleteIngredient(index, e) {
     e.preventDefault();
     e.stopPropagation();
-    const ingredientIndex = e.target.parentNode.id;
+
     const newIngredients = this.state.ingredients.slice();
 
-    newIngredients.splice(ingredientIndex, 1);
+    newIngredients.splice(index, 1);
 
     this.setState({
       ...this.state,
@@ -75,7 +112,7 @@ class RecipeForm extends Component {
         });
       }
     } else {
-      // Set message to indicate missing field
+      // Set message to indicate missing fields
       this.setState({
         message: "Recipe must have a title and at least one ingredient!"
       });
@@ -84,30 +121,49 @@ class RecipeForm extends Component {
 
   render() {
     const ingredientInputs = this.state.ingredients.map((ingredient, index) => (
-      <li key={index} id={index}>
-        <input
+      <li key={index}>
+        <Input
           type="text"
           className="ingredient"
-          placeholder="...add an ingredient"
-          key={index}
+          placeholder="..."
+          autoComplete="off"
           value={this.state.ingredients[index]}
-          onChange={this.onChangeIngredient.bind(this, index)}
+          onChange={this.onChangeIngredient.bind(null, index)}
         />
         {ingredient ? (
-          <button onClick={this.deleteIngredient}>Delete</button>
+          <Button
+            onClick={this.deleteIngredient.bind(null, index)}
+            data-index={index}
+            color="#FF3860"
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </Button>
         ) : null}
       </li>
     ));
 
     return (
-      <form onSubmit={this.onSubmitAttempt}>
+      <StyledForm onSubmit={this.onSubmitAttempt}>
+        {this.state.message ? (
+          <div className="form-error-message">
+            <FontAwesomeIcon
+              className="dismiss"
+              onClick={this.dismissError}
+              icon={faWindowClose}
+            />
+            {this.state.message}
+          </div>
+        ) : null}
+
+        <label htmlFor="title">Title</label>
         <Input
           type="text"
           name="title"
+          autoComplete="off"
           helpText={this.state.message}
           value={this.state.title}
           onChange={this.onChange}
-          placeholder="Recipe Title"
+          placeholder="e.g. Tomato Soup"
         />
         {/* <input 
                     type="text" 
@@ -115,10 +171,13 @@ class RecipeForm extends Component {
                     value={this.state.title}
                     onChange={this.onChange}
                 /> */}
-        <label htmlFor="ingredients">Ingredients</label>
-        <ol>{ingredientInputs}</ol>
-        <button>Add</button>
-      </form>
+        <div>
+          <label htmlFor="ingredients">Ingredients</label>
+          <ol>{ingredientInputs}</ol>
+        </div>
+
+        <Button>{this.props.isEditForm ? "Update" : "Add"}</Button>
+      </StyledForm>
     );
   }
 }

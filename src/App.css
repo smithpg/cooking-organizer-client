@@ -1,35 +1,41 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto|Slabo+27px');
-
-*{
+@import url("https://fonts.googleapis.com/css?family=Roboto|Montserrat:200,200i,400,600,700i");
+* {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
 
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
-h1,h2,h3,h4,h5{
-  font-family: 'Slabo 27px', serif;
-  text-transform: uppercase;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Montserrat", italic;
+  font-style: italic;
+  font-weight: 400;
+  text-transform: capitalize;
   letter-spacing: 0.1rem;
 }
 
-.App{
+.App {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  background-color: #ffffff;
 }
 
-.App-header{
+.App-header {
   position: fixed;
   width: 100%;
-  background-color: #1D2733;
+  background-color: #1d2733;
   color: white;
   padding: 0.25rem 0.75rem;
 }
 
-.App-content{
+.App-content {
   display: flex;
   flex-grow: 1;
 }
-
