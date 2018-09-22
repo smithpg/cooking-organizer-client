@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import posed from "react-pose";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-import Button from "./button";
+import Button, { EditButton, DeleteButton } from "./button";
 
 const PosedDiv = posed.div({
   initialPose: "fetching",
@@ -97,12 +95,8 @@ const Recipe = ({
   >
     <div>
       <h1>{recipe.title}</h1>
-      <Button className="delete" onClick={() => handleDelete(recipe.id)}>
-        <FontAwesomeIcon icon={faTrash} />
-      </Button>
-      <Button className="edit" onClick={triggerEdit.bind(null, recipe.id)}>
-        <FontAwesomeIcon icon={faEdit} />
-      </Button>
+      <DeleteButton onClick={() => handleDelete(recipe.id)} />
+      <EditButton onClick={triggerEdit.bind(null, recipe.id)} />
     </div>
 
     <ol>

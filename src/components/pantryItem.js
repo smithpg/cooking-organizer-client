@@ -4,7 +4,7 @@ import posed from "react-pose";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-import Button from "./button";
+import { DeleteButton } from "./button";
 
 const Style = styled.li`
   list-style: none;
@@ -93,9 +93,7 @@ const StyledMatches = ({ name, query }) => {
 
 const PantryItem = ({ item, handleDelete, highlighted, query }) => (
   <Style highlighted={highlighted}>
-    <Button className="delete-btn" onClick={e => handleDelete(item.id)}>
-      <FontAwesomeIcon icon={faTrash} />
-    </Button>
+    <DeleteButton onClick={e => handleDelete(item.id)} />
     {query ? (
       <StyledMatches name={item.name} query={query} />
     ) : (
