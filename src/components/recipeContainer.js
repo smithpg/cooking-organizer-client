@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import posed, { PoseGroup } from "react-pose";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import _ from "lodash";
 
-import * as pantryActions from "../store/actions/pantryItems";
+import * as recipeActions from "../store/actions/recipes";
 
-import PantryItem from "./pantryItem";
+import Recipe from "./recipe";
 import Input from "./input";
 
 const Container = styled.div`
@@ -44,7 +43,7 @@ const ItemList = ({ items, handleDelete }) => (
   <PoseGroup animateOnMount preEnterPose="preEnter">
     {items.map((item, i) => (
       <PosedItem key={item.id} i={i}>
-        <PantryItem
+        <Recipe
           item={item}
           handleDelete={handleDelete}
           highlighted={item.highlighted}

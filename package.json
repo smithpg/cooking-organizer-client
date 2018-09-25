@@ -14,7 +14,7 @@
     "react-dom": "^16.5.0",
     "react-pose": "^3.3.0",
     "react-redux": "^5.0.7",
-    "react-scripts": "1.1.5",
+    "react-scripts-cssmodules": "^1.1.50",
     "redux": "^4.0.0",
     "redux-debounced": "^0.5.0",
     "redux-thunk": "^2.3.0",
