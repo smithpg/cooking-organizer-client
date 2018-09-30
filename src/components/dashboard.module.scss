@@ -1,0 +1,64 @@
+@import "../styles/mixins";
+.Dashboard {
+  margin-top: 40px;
+  height: calc(100vh - 40px);
+  width: 100vw;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+
+  padding: 2rem;
+  padding-bottom: 0;
+  perspective: 1000px;
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1rem;
+
+    width: 50%;
+    margin: 0px 5px;
+  }
+
+  .container__body {
+    overflow-y: scroll;
+    flex-grow: 1;
+  }
+
+  .container__body--pantry {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+
+    padding: 1rem;
+    perspective: 1000px;
+  }
+
+  .container__body form {
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3), 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin: 5px;
+    border-radius: 3px;
+
+    background-color: white;
+  }
+
+  label {
+    margin-right: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  ul {
+    width: 100%;
+    list-style: none;
+  }
+
+  @media (max-width: 800px) {
+    flex-direction: column;
+
+    .container {
+      width: 100%;
+    }
+  }
+}

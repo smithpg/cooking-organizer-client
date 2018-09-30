@@ -1,23 +1,14 @@
 import React from "react";
 import { render } from "react-dom";
 import posed, { PoseGroup } from "react-pose";
-import styled from "styled-components";
+import styles from "./poseGroupTest.module.scss";
 import { connect } from "react-redux";
 
 import * as pantryActions from "../store/actions/pantryItems";
 
 import PantryItem from "./pantryItem";
 
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: flex-start;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100%;
-  width: 50vw;
-`;
+;
 const PosedItem = posed.span({
   enter: {
     opacity: 1,
@@ -92,12 +83,12 @@ class PantryItemContainer extends React.Component {
       { pantryItems } = this.props;
 
     return (
-      <Container>
+      <div className= {styles.PoseGroupTest} >
         <ItemList
           items={arrayFunctions[functionIndex](pantryItems)}
           handleDelete={this.boundDeletePantryItem}
         />
-      </Container>
+      </div>
     );
   }
 }

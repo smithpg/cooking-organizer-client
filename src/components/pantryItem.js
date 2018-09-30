@@ -1,55 +1,8 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-import posed from "react-pose";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+
+import styles from "./pantryItem.module.scss";
 
 import { DeleteButton } from "./button";
-
-const Style = styled.li`
-  list-style: none;
-  width: auto;
-
-  display: inline-flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 5px 5px 10px 5px;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: ${props =>
-    props.highlighted
-      ? "0px 5px 10px rgba(0, 0, 0, 0.5), 0px 0px 10px rgba(0, 0, 0, 0.1);"
-      : "0px 2px 3px rgba(0, 0, 0, 0.3), 0px 0px 10px rgba(0, 0, 0, 0.1);"};
-  background-color: ${props => (props.highlighted ? "#38FF60" : "white")};
-  position: relative;
-  /* transition: all 200ms ease-in-out; */
-
-  z-index: ${props => (props.highlighted ? 2 : 0)};
-  .name {
-    margin: 0px 5px;
-    text-transform: uppercase;
-  }
-
-  .query-match {
-    background-color: yellow;
-  }
-
-  .quantity {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    right: -0.5rem;
-    top: -0.5rem;
-    padding: 0.1rem;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: bold;
-
-    border-radius: 3px;
-    text-shadow: 1px 0px 1px rgba(0, 0, 0, 1), -1px 0px 1px rgba(0, 0, 0, 1);
-  }
-`;
 
 const StyledMatches = ({ name, query }) => {
   let startIndex = 0,
@@ -72,14 +25,14 @@ const StyledMatches = ({ name, query }) => {
 
     if (matchIndex === startIndex) {
       subSpans.push(
-        <span className="query-match">
+        <span className={styles.queryMatch}>
           {name.slice(startIndex, startIndex + query.length)}
         </span>
       );
     } else {
       subSpans.push(<span>{name.slice(startIndex, matchIndex)}</span>);
       subSpans.push(
-        <span className="query-match">
+        <span className={styles.queryMatch}>
           {name.slice(matchIndex, matchIndex + query.length)}
         </span>
       );
@@ -88,19 +41,23 @@ const StyledMatches = ({ name, query }) => {
     startIndex = matchIndex + query.length;
   }
 
-  return <span className="name">{subSpans}</span>;
+  return <span className={styles.name}>{subSpans}</span>;
 };
 
 const PantryItem = ({ item, handleDelete, highlighted, query }) => (
-  <Style highlighted={highlighted}>
+  <li
+    className={[styles.PantryItem, highlighted ? styles.highlighted : ""].join(
+      " "
+    )}
+  >
     <DeleteButton onClick={e => handleDelete(item.id)} />
     {query ? (
       <StyledMatches name={item.name} query={query} />
     ) : (
-      <span className="name">{item.name}</span>
+      <span className={styles.name}>{item.name}</span>
     )}
-    <span className="quantity">x{item.quantity}</span>
-  </Style>
+    <span className={styles.quantity}>x{item.quantity}</span>
+  </li>
 );
 
 export default PantryItem;

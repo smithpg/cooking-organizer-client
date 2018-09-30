@@ -1,0 +1,29 @@
+// Typography
+$min-vw: 320px;
+$max-vw: 1600px;
+$min-font-size: 8px;
+$max-font-size: 16px;
+$max-h-factor: 1.1;
+
+// Colors
+$brand: #9c2d2d;
+
+$primary: #ffe100;
+$accent: #17a7ac;
+
+$highlight-color: #ffb74d;
+$recipe-accent: #d669692b;
+
+$darkgrey: #333333; // typically used as font-color for body text
+$lightgrey: #d6dee0; // not white, but in its neighborhood
+
+// -- material UI colors
+$material-red: #e53935;
+$material-blue: #1e88e5;
+
+$btn-background: darken($brand, 10%);
+
+// Default Property Values
+$d-border: 1px solid $lightgrey;
+$d-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+$d-radius: 5px;

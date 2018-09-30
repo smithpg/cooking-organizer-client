@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
+import styles from "./dashboard.module.scss";
 import { posed, PoseGroup } from "react-pose";
 
 import * as pantryActions from "../store/actions/pantryItems";
@@ -12,91 +12,9 @@ import PantryItemForm from "./pantryItemForm";
 import PantryItemContainer from "./pantryItemContainer";
 import RecipeForm from "./recipeForm";
 import Recipe from "./recipe";
+import RecipeContainer from "./recipeContainer";
+
 import FetchContainer from "./fetchContainer";
-
-const Style = styled.div`
-  margin-top: 40px;
-  height: calc(100vh - 40px);
-  display: flex;
-
-  @media screen and (max-width: 400px) {
-    flex-direction: column;
-  }
-
-  justify-content: center;
-  align-items: center;
-
-  padding: 2rem;
-  padding-bottom: 0;
-  perspective: 1000px;
-  .container {
-    display: flex;
-    flex-direction: column;
-
-    height: 100%;
-    padding-bottom: 1rem;
-
-    flex: 300px 1 1;
-    margin: 0px 5px;
-  }
-  .container__header {
-    /* border-radius: 2px; */
-  }
-  .container__body {
-    overflow-y: scroll;
-    flex-grow: 1;
-  }
-
-  .container__body--pantry {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    align-content: flex-start;
-
-    padding: 1rem;
-    perspective: 1000px;
-  }
-
-  .container__body form {
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3), 0px 0px 10px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
-    margin: 5px;
-    border-radius: 3px;
-
-    background-color: white;
-  }
-
-  label {
-    margin-right: 0.5rem;
-    text-transform: uppercase;
-  }
-
-  /* .container__header form { */
-  form {
-    /* width: 100%; */
-    padding: 1.5rem;
-
-    border-radius: 10px;
-    border: 2px dashed #eeeeee;
-
-    input {
-      margin-right: 1rem;
-    }
-  }
-
-  ul {
-    width: 100%;
-    list-style: none;
-  }
-
-  .highlighted {
-    transform: scale(2);
-  }
-
-  .ingredient {
-    margin-left: 10px;
-  }
-`;
 
 class Dashboard extends Component {
   constructor(props) {
@@ -109,8 +27,6 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.fetchRecipes(this.props.currentUser.id);
     this.props.fetchPantryItems(this.props.currentUser.id);
-    // setTimeout(() => {
-    // }, 3000);
   }
 
   handleHover(recipe) {
@@ -170,9 +86,9 @@ class Dashboard extends Component {
         )
     );
     return (
-      <Style>
-        <div className="container">
-          <div className="container__header">
+      <div className={styles.Dashboard}>
+        <div className={styles.container}>
+          <div className={styles.container__header}>
             <h1>My Pantry</h1>
             <PantryItemForm
               handleSubmit={createPantryItem.bind(null, currentUser.id)}
@@ -180,19 +96,21 @@ class Dashboard extends Component {
           </div>
           <PantryItemContainer />
         </div>
-        <div className="container">
-          <div className="container__header">
+        <div className={styles.container}>
+          <div className={styles.container__header}>
             <h1>My Recipes</h1>
             <RecipeForm
               handleSubmit={createRecipe.bind(null, currentUser.id)}
             />
           </div>
 
-          <FetchContainer className="container__body">
+          <RecipeContainer />
+
+          {/* <FetchContainer className={styles.container__body}>
             {recipesArray}
-          </FetchContainer>
+          </FetchContainer> */}
         </div>
-      </Style>
+      </div>
     );
   }
 }

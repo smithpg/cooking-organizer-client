@@ -1,0 +1,129 @@
+@import "vars";
+
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+@mixin fluid-type(
+  $min-vw: $min-vw,
+  $max-vw: $max-vw,
+  $min-font-size: $min-font-size,
+  $max-font-size: $max-font-size,
+  $max-h-factor: $max-h-factor
+) {
+  $u1: unit($min-vw);
+  $u2: unit($max-vw);
+  $u3: unit($min-font-size);
+  $u4: unit($max-font-size);
+  @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+    & {
+      font-size: $min-font-size;
+      @media screen and (min-width: $min-vw) {
+        --baseSize: calc(
+          #{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} *
+            ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})
+        );
+        h1 {
+          font-size: calc(#{$max-h-factor * 2} * var(--baseSize));
+        }
+        h2 {
+          font-size: calc(#{$max-h-factor * 1.8} * var(--baseSize));
+        }
+        h3 {
+          font-size: calc(#{$max-h-factor * 1.6} * var(--baseSize));
+        }
+        h4 {
+          font-size: calc(#{$max-h-factor * 1.4} * var(--baseSize));
+        }
+        h5 {
+          font-size: calc(#{$max-h-factor * 1.2} * var(--baseSize));
+        }
+        font-size: var(--baseSize);
+      }
+      @media screen and (min-width: $max-vw) {
+        font-size: $max-font-size;
+        h1 {
+          font-size: calc($max-h-factor * $max-font-size);
+        }
+      }
+      h2 {
+        font-size: calc(#{$max-h-factor * 1.8} * $max-font-size);
+      }
+      h3 {
+        font-size: calc(#{$max-h-factor * 1.6} * $max-font-size);
+      }
+      h4 {
+        font-size: calc(#{$max-h-factor * 1.4} * $max-font-size);
+      }
+      h5 {
+        font-size: calc(#{$max-h-factor * 1.2} * $max-font-size);
+      }
+    }
+  }
+}
+@mixin dim($width, $height: $width) {
+  height: $height;
+  width: $width;
+}
+@mixin borders($top, $bottom, $left, $right) {
+  border-top: $top;
+  border-bottom: $bottom;
+  border-left: $left;
+  border-right: $right;
+}
+@mixin flexbox($direction: row, $justify: center, $align: center, $wrap: none) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+@mixin animated-label(
+  $label-text,
+  $animation-name,
+  $animation-duration: 1000ms,
+  $width: 200px
+) {
+  position: relative;
+  &::before {
+    content: $label-text;
+    font-size: 16px;
+    position: absolute;
+    text-align: center;
+    width: $width;
+    top: 100%;
+    left: calc(50% - ($width / 2));
+    z-index: 2;
+    animation: $animation-name $animation-duration alternate infinite;
+    @content;
+  }
+}
+@mixin d-after($content: "", $z-index: -1) {
+  position: relative;
+  &::after {
+    content: $content;
+    position: absolute;
+    z-index: $z-index;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    box-sizing: border-box;
+    @content;
+  }
+}
+@mixin hover-after($transition: 200ms, $content: "") {
+  @include default-after($content, 1) {
+    padding: 20%;
+    transition: $transition;
+    box-sizing: border-box;
+    @content;
+    opacity: 0;
+  }
+  &:hover {
+    &::after {
+      opacity: 1;
+    }
+  }
+}

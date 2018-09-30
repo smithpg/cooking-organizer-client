@@ -1,23 +1,14 @@
 import React, { Component } from "react";
 import posed, { PoseGroup } from "react-pose";
-import styled from "styled-components";
+import styles from "./recipeContainer.module.scss";
 import { connect } from "react-redux";
 
 import * as recipeActions from "../store/actions/recipes";
+import { highlightMatchingPantryItems } from "../store/actions/pantryItems";
 
 import Recipe from "./recipe";
+import RecipeForm from "./recipeForm";
 import Input from "./input";
-
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: flex-start;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100%;
-  width: 50vw;
-`;
 
 const PosedItem = posed.span({
   preEnter: {
@@ -25,83 +16,78 @@ const PosedItem = posed.span({
     x: props => props.i * Math.floor(-100 * Math.random()),
     y: -200
   },
-
   enter: {
     opacity: 1,
     x: 0,
-    y: 0
-    // transition: { type: "spring", stiffness: 200 }
+    y: 0,
+    transition: { type: "spring", stiffness: 200 }
   },
   exit: {
     opacity: 0
-    // x: props => props.i * Math.floor(-100 * Math.random()),
-    // y: props => props.i * Math.floor(-100 * Math.random())
   }
 });
 
-const ItemList = ({ items, handleDelete }) => (
-  <PoseGroup animateOnMount preEnterPose="preEnter">
-    {items.map((item, i) => (
-      <PosedItem key={item.id} i={i}>
-        <Recipe
-          item={item}
-          handleDelete={handleDelete}
-          highlighted={item.highlighted}
-        />
-      </PosedItem>
-    ))}
-  </PoseGroup>
-);
-
-class PantryItemContainer extends Component {
+class RecipeContainer extends Component {
   constructor(props) {
     super(props);
+    this.handleHover = this.handleHover.bind(this);
 
-    this.state = {
-      query: ""
-    };
-
-    this.filterByQuery = this.filterByQuery.bind(this);
-    this.shiftHighlighted = this.shiftHighlighted.bind(this);
-    this.onChange = this.onChange.bind(this);
-
-    this.boundDeletePantryItem = this.props.deletePantryItem.bind(
+    this.boundDeleteRecipe = this.props.deleteRecipe.bind(
       null,
       this.props.currentUser.id
     );
   }
 
-  shiftHighlighted(items) {
-    return _.flatten(_.partition(items, i => i.highlighted));
-  }
+  handleHover(recipe) {
+    const { hoverRecipe, highlightMatchingPantryItems } = this.props;
 
-  filterByQuery(items) {
-    return items.filter(item =>
-      item.name.toUpperCase().includes(this.state.query.toUpperCase())
-    );
-  }
-
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    if (recipe) {
+      // dispatch two actions...
+      hoverRecipe(recipe);
+      highlightMatchingPantryItems(recipe.ingredients);
+    } else {
+      hoverRecipe(null);
+      highlightMatchingPantryItems(null);
+    }
   }
 
   render() {
-    const { arrayFunctions, functionIndex } = this.state,
-      { pantryItems } = this.props;
+    const {
+      deleteRecipe,
+      editRecipe,
+      updateRecipe,
+      currentUser,
+      recipes
+    } = this.props;
 
     return (
-      <React.Fragment>
-        <div>
-          <label htmlFor="query">Filter By:</label>
-          <Input name="query" type="text" onChange={this.onChange} />
-        </div>
-        <Container>
-          <ItemList
-            items={this.shiftHighlighted(this.filterByQuery(pantryItems))}
-            handleDelete={this.boundDeletePantryItem}
-          />
-        </Container>
-      </React.Fragment>
+      <div className={styles.RecipeContainer}>
+        <PoseGroup animateOnMount preEnterPose="preEnter">
+          {recipes.map((item, i) => (
+            <PosedItem key={item.id} i={i}>
+              {item.editing ? (
+                <RecipeForm
+                  handleSubmit={objToSubmit => {
+                    updateRecipe(currentUser.id, item.id, objToSubmit);
+                  }}
+                  title={item.title}
+                  key={item.id + "form"}
+                  ingredients={item.ingredients}
+                  isEditForm={true}
+                />
+              ) : (
+                <Recipe
+                  key={item.id}
+                  recipe={item}
+                  triggerEdit={editRecipe}
+                  handleDelete={deleteRecipe.bind(null, currentUser.id)}
+                  handleHover={this.handleHover}
+                />
+              )}
+            </PosedItem>
+          ))}
+        </PoseGroup>
+      </div>
     );
   }
 }
@@ -109,8 +95,8 @@ class PantryItemContainer extends Component {
 function mapStateToProps(state) {
   return {
     currentUser: state.currentUser.user,
-    pantryItems: state.pantryItems.items,
-    fetching: state.pantryItems.fetching,
+    recipes: state.recipes.items,
+    fetching: state.recipes.fetching,
     errors: state.errors,
     hoveredRecipe: state.recipes.hovered
   };
@@ -119,6 +105,7 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   {
-    ...pantryActions
+    ...recipeActions,
+    highlightMatchingPantryItems
   }
-)(PantryItemContainer);
+)(RecipeContainer);

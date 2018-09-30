@@ -2,22 +2,13 @@ import React, { Component } from 'react';
 import { Router } from "@reach/router";
 import { connect } from "react-redux";
 
-import styled from "styled-components";
+import styles from "./landing.module.scss";
 
 import { authUser } from "../store/actions/auth"
 import { removeError } from "../store/actions/error";
 import AuthForm from "./authForm";
 
-const Style = styled.div`
-    height: 100vh;
-    width: 100vw;
 
-    background-color: teal; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;   
-`
 
 
 const Landing = props=> {
@@ -25,7 +16,7 @@ const Landing = props=> {
     const { authUser, errors, removeError, currentUser } = props;
 
     return ( 
-        <Style>
+        <div className= {styles.Landing} >
             <Router>
                 <AuthForm 
                     path="/"
@@ -46,7 +37,7 @@ const Landing = props=> {
                     heading="Join today!" 
                 />
             </Router>
-        </Style>
+        </div>
     );    
 }
 

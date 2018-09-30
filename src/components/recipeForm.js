@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styles from "./recipeForm.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -8,31 +8,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import Input from "./input";
-import Button from "./button";
+import Button, { DeleteButton } from "./button";
 
-const StyledForm = styled.form`
-  ol {
-    margin-left: 3rem;
-  }
-
-  .form-error-message {
-    width: auto;
-
-    border-radius: 5px;
-    border: 3px solid red;
-    padding: 0.5rem;
-
-    background-color: white;
-
-    color: red;
-    text-transform: uppercase;
-
-    .dismiss {
-      margin-right: 0.5rem;
-      cursor: pointer;
-    }
-  }
-`;
+;
 
 class RecipeForm extends Component {
   constructor(props) {
@@ -131,19 +109,16 @@ class RecipeForm extends Component {
           onChange={this.onChangeIngredient.bind(null, index)}
         />
         {ingredient ? (
-          <Button
+          <DeleteButton
             onClick={this.deleteIngredient.bind(null, index)}
             data-index={index}
-            color="#FF3860"
-          >
-            <FontAwesomeIcon icon={faTrash} />
-          </Button>
+          />
         ) : null}
       </li>
     ));
 
     return (
-      <StyledForm onSubmit={this.onSubmitAttempt}>
+      <form className= {styles.RecipeForm}  onSubmit={this.onSubmitAttempt}>
         {this.state.message ? (
           <div className="form-error-message">
             <FontAwesomeIcon
@@ -177,7 +152,7 @@ class RecipeForm extends Component {
         </div>
 
         <Button>{this.props.isEditForm ? "Update" : "Add"}</Button>
-      </StyledForm>
+      </form>
     );
   }
 }

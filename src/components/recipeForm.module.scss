@@ -1,0 +1,24 @@
+@import "../styles/mixins";
+.RecipeForm {
+  ol {
+    margin-left: 3rem;
+  }
+
+  .form-error-message {
+    width: auto;
+
+    border-radius: 5px;
+    border: 3px solid red;
+    padding: 0.5rem;
+
+    background-color: white;
+
+    color: red;
+    text-transform: uppercase;
+
+    .dismiss {
+      margin-right: 0.5rem;
+      cursor: pointer;
+    }
+  }
+}

@@ -5,7 +5,7 @@ import { configureStore } from "./store";
 import { setCurrentUser, logout } from "./store/actions/auth";
 import jwtDecode from "jwt-decode";
 import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 
 import Navbar from "./components/navbar";
 import Landing from "./components/landing";
@@ -22,11 +22,13 @@ if (localStorage.jwtToken) {
 }
 
 class App extends Component {
-  render(props) {
+  componentDidMount() {
     if (!store.getState().currentUser.isAuthenticated) {
       navigate("/auth");
     }
+  }
 
+  render(props) {
     return (
       <Provider store={store}>
         <React.Fragment>
@@ -41,23 +43,5 @@ class App extends Component {
     );
   }
 }
-// const Context = React.createContext({user: {}});
-
-// const App = () => (
-//   <Context.Provider>
-
-//     <header className="App-header">
-//         {/* <img src={logo} className="App-logo" alt="logo" /> */}
-//         <h1 className="App-title">Home Cooking Organizer</h1>
-//         <Link to="/dashboard">Dashboard</Link>
-//     </header>
-
-//     <Router className="App">
-//       <Landing path="/"/>
-//       <Dashboard path = "/dashboard"/>
-//     </Router>
-
-//   </Context.Provider>
-// );
 
 export default App;

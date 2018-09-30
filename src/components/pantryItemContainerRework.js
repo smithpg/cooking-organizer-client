@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import posed, { PoseGroup } from "react-pose";
-import styled from "styled-components";
+import styles from "./pantryItemContainerRework.module.scss";
 import { connect } from "react-redux";
 import _ from "lodash";
 
@@ -14,78 +14,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import Button from "./button";
 
-const Container = styled.div`
-  height: 500px;
-
-  * {
-    transform-style: preserve-3d;
-  }
-
-  .itemList {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    align-content: flex-start;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 80%;
-    width: 50vw;
-
-    div {
-      display: inline-flex;
-      justify-content: flex-start;
-      align-items: center;
-      margin: 5px 5px 10px 5px;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5),
-        0px 0px 10px rgba(0, 0, 0, 0.1);
-      background-color: white;
-
-      position: relative;
-      /* transition: all 200ms ease-in-out; */
-
-      /* z-index: ${props => (props.highlighted ? 2 : 0)}; */
-      .name {
-        margin: 0px 5px;
-        text-transform: uppercase;
-      }
-
-      .query-match {
-        background-color: yellow;
-      }
-
-      .quantity {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        right: -0.5rem;
-        top: -0.5rem;
-        padding: 0.1rem;
-        color: white;
-        font-size: 1.1rem;
-        font-weight: bold;
-
-        border-radius: 3px;
-        text-shadow: 1px 0px 1px rgba(0, 0, 0, 1), -1px 0px 1px rgba(0, 0, 0, 1);
-      }
-    }
-
-    &:last-child {
-      background-color: red;
-    }
-  }
-
-  .queryInput {
-    padding: 1.5rem;
-    height: 20%;
-    border-radius: 10px;
-    border-bottom: 2px dashed #eeeeee;
-    border-right: 2px dashed #eeeeee;
-    border-left: 2px dashed #eeeeee;
-  }
-`;
+;
 
 const PantryItem = ({ item, handleDelete, highlighted, query, hostRef }) => (
   <div ref={hostRef}>
@@ -190,7 +119,7 @@ class PantryItemContainer extends Component {
 
     return (
       <React.Fragment>
-        <Container>
+        <div className= {styles.PantryItemContainerRework} >
           <div className="queryInput">
             <label htmlFor="query">Filter Items:</label>
             <Input
@@ -207,7 +136,7 @@ class PantryItemContainer extends Component {
               query={this.state.query}
             />
           </div>
-        </Container>
+        </div>
       </React.Fragment>
     );
   }

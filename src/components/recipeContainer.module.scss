@@ -1,0 +1,11 @@
+@import "../styles/mixins";
+.RecipeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  align-content: flex-start;
+  overflow-y: auto;
+  overflow-x: visible;
+  height: 500px;
+  width: 100%;
+}

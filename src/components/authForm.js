@@ -1,34 +1,11 @@
 import React, { Component } from "react";
 import { navigate, Link } from "@reach/router";
-import styled from "styled-components";
+import styles from "./authForm.module.scss";
 
 import Input from "./input";
 import Button from "./button";
 
-const Style = styled.div`
-  z-index: 3;
-  height: 500px;
-  width: 500px;
-  background-color: white;
-  padding: 2rem;
-
-  border-top: 5px solid gold;
-  border-radius: 5px;
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
-  form {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-
-    * {
-      margin: 5px;
-    }
-    label {
-      width: 10rem;
-    }
-  }
-`;
+;
 
 export default class AuthForm extends Component {
   constructor(props) {
@@ -68,7 +45,7 @@ export default class AuthForm extends Component {
     // history.listen(()=> {removeError();});
 
     return (
-      <Style>
+      <div className= {styles.AuthForm} >
         <form onSubmit={this.handleSubmit}>
           <h2>{heading}</h2>
           {errors.message && <div>{errors.message}</div>}
@@ -122,7 +99,7 @@ export default class AuthForm extends Component {
             )}
           </div>
         </form>
-      </Style>
+      </div>
     );
   }
 }

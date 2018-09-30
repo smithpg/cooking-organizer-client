@@ -1,0 +1,24 @@
+@import "../styles/mixins";
+.PantryItemContainer {
+  height: 500px;
+
+  * {
+    transform-style: preserve-3d;
+  }
+
+  .itemList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    padding: 0.25rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 80%;
+  }
+
+  .queryInput {
+    padding: 1.5rem;
+    height: 20%;
+  }
+}

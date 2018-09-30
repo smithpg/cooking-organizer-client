@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import posed, { PoseGroup } from "react-pose";
-import styled from "styled-components";
+import styles from "./pantryItemContainer.module.scss";
 import { connect } from "react-redux";
 import _ from "lodash";
 
@@ -8,34 +8,6 @@ import * as pantryActions from "../store/actions/pantryItems";
 
 import Input from "./input";
 import PantryItem from "./pantryItem";
-
-const Container = styled.div`
-  height: 500px;
-
-  * {
-    transform-style: preserve-3d;
-  }
-
-  .itemList {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    align-content: flex-start;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 80%;
-    width: 50vw;
-  }
-
-  .queryInput {
-    padding: 1.5rem;
-    height: 20%;
-    border-radius: 10px;
-    border-bottom: 2px dashed #eeeeee;
-    border-right: 2px dashed #eeeeee;
-    border-left: 2px dashed #eeeeee;
-  }
-`;
 
 const PosedItem = posed.span({
   preEnter: {
@@ -108,26 +80,24 @@ class PantryItemContainer extends Component {
     const { pantryItems } = this.props;
 
     return (
-      <React.Fragment>
-        <Container>
-          <div className="queryInput">
-            <label htmlFor="query">Filter Items:</label>
-            <Input
-              name="query"
-              type="text"
-              onChange={this.onChange}
-              placeholder="..."
-            />
-          </div>
-          <div className="itemList">
-            <ItemList
-              items={this.shiftHighlighted(this.filterByQuery(pantryItems))}
-              handleDelete={this.boundDeletePantryItem}
-              query={this.state.query}
-            />
-          </div>
-        </Container>
-      </React.Fragment>
+      <div className={styles.PantryItemContainer}>
+        <div className={styles.queryInput}>
+          <label htmlFor="query">Filter Items:</label>
+          <Input
+            name="query"
+            type="text"
+            onChange={this.onChange}
+            placeholder="..."
+          />
+        </div>
+        <div className={styles.itemList}>
+          <ItemList
+            items={this.shiftHighlighted(this.filterByQuery(pantryItems))}
+            handleDelete={this.boundDeletePantryItem}
+            query={this.state.query}
+          />
+        </div>
+      </div>
     );
   }
 }
