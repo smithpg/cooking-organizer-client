@@ -1,0 +1,43 @@
+@import "../styles/mixins";
+
+.Modal {
+  @include flexbox(column, flex-start);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+  z-index: 3;
+
+  // background: linear-gradient($brand, transparentize($brand, 1));
+
+  background: transparentize($brand, 0.1);
+
+  perspective: 100px;
+}
+
+.modalContent {
+  position: relative;
+
+  width: auto;
+  margin: 4rem auto;
+
+  border-radius: 5px;
+  background-color: white;
+  transition: all 100ms;
+  header {
+    @include flexbox(row, space-between);
+
+    background-color: $lightgrey;
+    padding: 1rem;
+  }
+
+  section {
+    padding: 1rem;
+  }
+}
+
+.closeButton {
+  border: 2px solid $darkgrey;
+  background-color: $material-red;
+}

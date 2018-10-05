@@ -1,8 +1,29 @@
 import React, { Component } from "react";
+import posed from "react-pose";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+
+import { joinClasses } from "../services/classUtils.js";
 
 import styles from "./pantryItem.module.scss";
 
 import { DeleteButton } from "./button";
+
+const Checkmark = posed.span({
+  hidden: {
+    opacity: 0,
+    scale: 0,
+    y: 20
+  },
+  visible: {
+    opacity: 1,
+    scale: 1.1,
+    y: 0,
+    transition: {
+      y: { type: "spring", stiffness: 500 }
+    }
+  }
+});
 
 const StyledMatches = ({ name, query }) => {
   let startIndex = 0,
@@ -46,10 +67,18 @@ const StyledMatches = ({ name, query }) => {
 
 const PantryItem = ({ item, handleDelete, highlighted, query }) => (
   <li
-    className={[styles.PantryItem, highlighted ? styles.highlighted : ""].join(
-      " "
-    )}
+    className={
+      highlighted
+        ? joinClasses(styles.PantryItem, styles.highlighted)
+        : styles.PantryItem
+    }
   >
+    <Checkmark
+      className={styles.Checkmark}
+      pose={highlighted ? "visible" : "hidden"}
+    >
+      <FontAwesomeIcon icon={faCheckCircle} />
+    </Checkmark>
     <DeleteButton onClick={e => handleDelete(item.id)} />
     {query ? (
       <StyledMatches name={item.name} query={query} />

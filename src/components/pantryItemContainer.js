@@ -92,7 +92,7 @@ class PantryItemContainer extends Component {
         </div>
         <div className={styles.itemList}>
           <ItemList
-            items={this.shiftHighlighted(this.filterByQuery(pantryItems))}
+            items={this.filterByQuery(pantryItems)}
             handleDelete={this.boundDeletePantryItem}
             query={this.state.query}
           />

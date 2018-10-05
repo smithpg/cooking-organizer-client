@@ -5,7 +5,7 @@
 
 html {
   @include fluid-type();
-
+  overflow: hidden;
   // background: linear-gradient(45deg, $highlight-color, $brand);
 }
 
@@ -14,7 +14,6 @@ html {
   padding: 0px;
   box-sizing: border-box;
   font-family: "Montserrat";
-
   // font-family: "Roboto", sans-serif;
 }
 

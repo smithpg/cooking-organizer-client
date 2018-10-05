@@ -1,16 +1,8 @@
 import React, { Component } from "react";
 import styles from "./recipeForm.module.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEdit,
-  faTrash,
-  faWindowClose
-} from "@fortawesome/free-solid-svg-icons";
 
 import Input from "./input";
-import Button, { DeleteButton } from "./button";
-
-;
+import Button, { DeleteButton, CloseButton } from "./button";
 
 class RecipeForm extends Component {
   constructor(props) {
@@ -118,14 +110,10 @@ class RecipeForm extends Component {
     ));
 
     return (
-      <form className= {styles.RecipeForm}  onSubmit={this.onSubmitAttempt}>
+      <form className={styles.RecipeForm} onSubmit={this.onSubmitAttempt}>
         {this.state.message ? (
           <div className="form-error-message">
-            <FontAwesomeIcon
-              className="dismiss"
-              onClick={this.dismissError}
-              icon={faWindowClose}
-            />
+            <CloseButton className="dismiss" onClick={this.dismissError} />
             {this.state.message}
           </div>
         ) : null}

@@ -13,15 +13,15 @@ import Input from "./input";
 const PosedItem = posed.span({
   preEnter: {
     opacity: 0,
-    x: props => props.i * Math.floor(-100 * Math.random()),
     y: -200
   },
   enter: {
     opacity: 1,
-    x: 0,
     y: 0,
+    delay: props => props.i * 100,
     transition: { type: "spring", stiffness: 200 }
   },
+
   exit: {
     opacity: 0
   }
