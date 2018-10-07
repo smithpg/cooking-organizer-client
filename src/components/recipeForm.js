@@ -6,13 +6,13 @@ import Button, { DeleteButton, CloseButton } from "./button";
 
 class RecipeForm extends Component {
   constructor(props) {
-    const { title, ingredients } = props;
-
     super(props);
+
+    const { recipe: { title, ingredients } = {} } = props;
     this.state = {
       message: "",
       title: title || "",
-      ingredients: ingredients ? ingredients.concat([""]) : [""]
+      ingredients: ingredients || []
     };
     this.onChange = this.onChange.bind(this);
     this.onChangeIngredient = this.onChangeIngredient.bind(this);
@@ -44,19 +44,21 @@ class RecipeForm extends Component {
     this.setState({ [name]: value });
   }
 
+  onBlur(e) {
+    if (e.target.value === "") {
+      e.target.dataset.index;
+    }
+  }
+
   onChangeIngredient(index, e) {
     const newIngredients = this.state.ingredients.slice();
 
-    if (e.target.value === "" && newIngredients.length > 1) {
+    if (e.target.value === "") {
       // If the text value of an input other than the first
       // has been deleted, remove the input
       newIngredients.splice(index, 1);
     } else {
       newIngredients[index] = e.target.value;
-
-      if (index === this.state.ingredients.length - 1) {
-        newIngredients.push("");
-      }
     }
 
     this.setState({ ingredients: newIngredients });
@@ -68,7 +70,7 @@ class RecipeForm extends Component {
     if (title && ingredients[0]) {
       const objToSubmit = {
         title,
-        ingredients: ingredients.slice(0, -1) // last field is always empty
+        ingredients
       };
 
       this.props.handleSubmit(objToSubmit);
@@ -78,36 +80,51 @@ class RecipeForm extends Component {
         this.setState({
           message: "",
           title: "",
-          ingredients: [""]
+          ingredients: []
         });
       }
     } else {
       // Set message to indicate missing fields
       this.setState({
-        message: "Recipe must have a title and at least one ingredient!"
+        message: `Recipe must have ${title ? "" : "a title"}${
+          !(title || ingredients.length) ? " and" : ""
+        }${ingredients.length ? "" : " at least one ingredient"}!`
       });
     }
   }
 
   render() {
-    const ingredientInputs = this.state.ingredients.map((ingredient, index) => (
-      <li key={index}>
+    const { ingredients } = this.state,
+      ingredientInputs = ingredients.map((ingredient, index) => (
+        <li key={index}>
+          <Input
+            type="text"
+            className="ingredient"
+            placeholder="..."
+            autoComplete="off"
+            value={ingredients[index]}
+            onChange={this.onChangeIngredient.bind(null, index)}
+          />
+          {ingredient ? (
+            <DeleteButton
+              onClick={this.deleteIngredient.bind(null, index)}
+              data-index={index}
+            />
+          ) : null}
+        </li>
+      ));
+    ingredientInputs.push(
+      <li key={ingredients.length}>
         <Input
           type="text"
           className="ingredient"
           placeholder="..."
           autoComplete="off"
-          value={this.state.ingredients[index]}
-          onChange={this.onChangeIngredient.bind(null, index)}
+          value=""
+          onChange={this.onChangeIngredient.bind(null, ingredients.length)}
         />
-        {ingredient ? (
-          <DeleteButton
-            onClick={this.deleteIngredient.bind(null, index)}
-            data-index={index}
-          />
-        ) : null}
       </li>
-    ));
+    );
 
     return (
       <form className={styles.RecipeForm} onSubmit={this.onSubmitAttempt}>
@@ -128,12 +145,6 @@ class RecipeForm extends Component {
           onChange={this.onChange}
           placeholder="e.g. Tomato Soup"
         />
-        {/* <input 
-                    type="text" 
-                    name="title" 
-                    value={this.state.title}
-                    onChange={this.onChange}
-                /> */}
         <div>
           <label htmlFor="ingredients">Ingredients</label>
           <ol>{ingredientInputs}</ol>

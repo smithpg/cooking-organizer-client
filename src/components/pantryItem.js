@@ -65,8 +65,9 @@ const StyledMatches = ({ name, query }) => {
   return <span className={styles.name}>{subSpans}</span>;
 };
 
-const PantryItem = ({ item, handleDelete, highlighted, query }) => (
+const PantryItem = ({ item, handleDelete, highlighted, query, hostRef }) => (
   <li
+    ref={hostRef}
     className={
       highlighted
         ? joinClasses(styles.PantryItem, styles.highlighted)

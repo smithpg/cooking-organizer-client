@@ -10,23 +10,6 @@ import Recipe from "./recipe";
 import RecipeForm from "./recipeForm";
 import Input from "./input";
 
-const PosedItem = posed.span({
-  preEnter: {
-    opacity: 0,
-    y: -200
-  },
-  enter: {
-    opacity: 1,
-    y: 0,
-    delay: props => props.i * 100,
-    transition: { type: "spring", stiffness: 200 }
-  },
-
-  exit: {
-    opacity: 0
-  }
-});
-
 class RecipeContainer extends Component {
   constructor(props) {
     super(props);
@@ -63,28 +46,13 @@ class RecipeContainer extends Component {
     return (
       <div className={styles.RecipeContainer}>
         <PoseGroup animateOnMount preEnterPose="preEnter">
-          {recipes.map((item, i) => (
-            <PosedItem key={item.id} i={i}>
-              {item.editing ? (
-                <RecipeForm
-                  handleSubmit={objToSubmit => {
-                    updateRecipe(currentUser.id, item.id, objToSubmit);
-                  }}
-                  title={item.title}
-                  key={item.id + "form"}
-                  ingredients={item.ingredients}
-                  isEditForm={true}
-                />
-              ) : (
-                <Recipe
-                  key={item.id}
-                  recipe={item}
-                  triggerEdit={editRecipe}
-                  handleDelete={deleteRecipe.bind(null, currentUser.id)}
-                  handleHover={this.handleHover}
-                />
-              )}
-            </PosedItem>
+          {recipes.map(item => (
+            <Recipe
+              key={item.id}
+              recipe={item}
+              handleDelete={deleteRecipe.bind(null, currentUser.id)}
+              handleHover={this.handleHover}
+            />
           ))}
         </PoseGroup>
       </div>

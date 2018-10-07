@@ -1,9 +1,9 @@
 @import "../styles/mixins";
 .RecipeContainer {
-  display: flex;
-  flex-direction: column;
-  overflow-y: visible;
-  overflow-x: visible;
-  height: 500px;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  position: relative;
+  overflow-y: auto;
   width: 100%;
 }

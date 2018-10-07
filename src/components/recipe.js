@@ -7,6 +7,7 @@ import { highlightMatchingPantryItems } from "../store/actions/pantryItems";
 
 import styles from "./recipe.module.scss";
 
+import RecipeForm from "./recipeForm";
 import Button, { EditButton, DeleteButton } from "./button";
 
 const ExpandableContainer = posed.div({
@@ -24,9 +25,14 @@ class Recipe extends Component {
     super(props);
     this.state = { expanded: false };
 
+    this.triggerEdit = this.triggerEdit.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.toggleExpand = this.toggleExpand.bind(this);
+  }
+
+  triggerEdit() {
+    this.props.editRecipe(this.props.recipe.id);
   }
 
   toggleExpand() {
@@ -34,55 +40,62 @@ class Recipe extends Component {
   }
 
   handleMouseEnter() {
-    const { recipe, hoverRecipe, highlightMatchingPantryItems } = this.props;
+    const { recipe, highlightMatchingPantryItems } = this.props;
 
-    // hoverRecipe(recipe);
     highlightMatchingPantryItems(recipe.ingredients);
     this.setState({ expanded: true });
   }
 
   handleMouseLeave() {
-    const { hoverRecipe, highlightMatchingPantryItems } = this.props;
+    const { highlightMatchingPantryItems } = this.props;
 
-    // hoverRecipe(null);
     highlightMatchingPantryItems(null);
     this.setState({ expanded: false });
   }
 
   render() {
     const { expanded } = this.state;
-    const { recipe, triggerEdit, handleDelete, handleHover } = this.props;
+    const {
+      recipe,
+      hostRef,
+      handleDelete,
+      editRecipe,
+      updateRecipe,
+      currentUser
+    } = this.props;
 
     return (
       <div
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        key={recipe.id}
+        ref={hostRef}
         className={styles.Recipe}
       >
-        <header>
-          <h1>{recipe.title}</h1>
-          {/* <Button onClick={this.toggleExpand}>Expand</Button> */}
-          <DeleteButton onClick={() => handleDelete(recipe.id)} />
-          <EditButton onClick={triggerEdit.bind(null, recipe.id)} />
-        </header>
+        {recipe.editing ? (
+          <RecipeForm
+            recipe={recipe}
+            handleSubmit={objToSubmit => {
+              updateRecipe(currentUser.id, recipe.id, objToSubmit);
+            }}
+            isEditForm
+          />
+        ) : (
+          <React.Fragment>
+            <header>
+              <h1>{recipe.title}</h1>
+              <DeleteButton onClick={() => handleDelete(recipe.id)} />
+              <EditButton onClick={this.triggerEdit} />
+            </header>
 
-        <ExpandableContainer pose={expanded ? "expanded" : "contracted"}>
-          {recipe.ingredients.map((ingredient, i) => (
-            <li key={i} className={styles.ingredient}>
-              {ingredient}
-            </li>
-          ))}
-        </ExpandableContainer>
-        {/* {expanded && (
-          <ul>
-            {recipe.ingredients.map((ingredient, i) => (
-              <li key={i} className={styles.ingredient}>
-                {ingredient}
-              </li>
-            ))}
-          </ul>
-        )} */}
+            <ExpandableContainer pose={expanded ? "expanded" : "contracted"}>
+              {recipe.ingredients.map((ingredient, i) => (
+                <li key={i} className={styles.ingredient}>
+                  {ingredient}
+                </li>
+              ))}
+            </ExpandableContainer>
+          </React.Fragment>
+        )}
       </div>
     );
   }
@@ -104,4 +117,21 @@ export default connect(
     ...recipeActions,
     highlightMatchingPantryItems
   }
-)(Recipe);
+)(
+  posed(Recipe)({
+    preEnter: {
+      opacity: 0,
+      y: -200
+    },
+    enter: {
+      opacity: 1,
+      y: 0,
+      delay: props => props.i * 100,
+      transition: { type: "spring", stiffness: 200 }
+    },
+
+    exit: {
+      opacity: 0
+    }
+  })
+);

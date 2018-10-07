@@ -9,37 +9,46 @@ import * as pantryActions from "../store/actions/pantryItems";
 import Input from "./input";
 import PantryItem from "./pantryItem";
 
-const PosedItem = posed.span({
-  preEnter: {
-    opacity: 0
-    // x: props => props.i * Math.floor(-100 * Math.random()),
-    // y: -200
-  },
+// const PosedItem = posed(PantryItem)({
+//   enter: {
+//     opacity: 1
+//   },
+//   exit: {
+//     opacity: 0
+//   }
+// });
 
+/**
+ *  For some reason that is not clear to me, PantryItem components that
+ *  have had the posed() function applied to them behave differently from
+ *  the same components wrapped inside a posed.span. The posed PantryItems
+ *  wait until unmounting components complete exit animations before moving to
+ *  their new positions, whereas the posed.spans begin moving as soon as the
+ *  exit animations begin. The latter looks much better, so I've stuck with
+ *  that.
+ */
+
+const PosedSpan = posed.span({
   enter: {
     opacity: 1
-    // x: 0,
-    // y: 0
-    // transition: { type: "spring", stiffness: 200 }
   },
   exit: {
     opacity: 0
-    // x: props => props.i * Math.floor(-100 * Math.random()),
-    // y: props => props.i * Math.floor(-100 * Math.random())
   }
 });
 
 const ItemList = ({ items, handleDelete, query }) => (
-  <PoseGroup animateOnMount preEnterPose="preEnter">
+  <PoseGroup>
     {items.map((item, i) => (
-      <PosedItem key={item.id} i={i}>
+      <PosedSpan key={item.id}>
         <PantryItem
+          i={i}
           item={item}
           handleDelete={handleDelete}
           highlighted={item.highlighted}
           query={query}
         />
-      </PosedItem>
+      </PosedSpan>
     ))}
   </PoseGroup>
 );
