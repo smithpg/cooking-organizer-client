@@ -1,0 +1,31 @@
+@import "../styles/mixins";
+.PantryItemPane {
+  height: 100%;
+  width: 98%;
+  padding: 0 1%;
+  & > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 1rem 0;
+    height: 10%;
+  }
+
+  .queryInput {
+    padding: 1.5rem;
+    height: 10%;
+  }
+
+  & > section {
+    position: relative;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    padding: 0.25rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 80%;
+  }
+}

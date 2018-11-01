@@ -12,7 +12,8 @@ import Button, { EditButton, DeleteButton } from "./button";
 
 const ExpandableContainer = posed.div({
   contracted: {
-    height: 0
+    height: 0,
+    overflow: "hidden"
   },
 
   expanded: {

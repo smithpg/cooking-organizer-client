@@ -8,8 +8,8 @@ import logo from "./logo.svg";
 import "./App.scss";
 
 import Navbar from "./components/navbar";
-import Landing from "./components/landing";
 import Dashboard from "./components/dashboard";
+import Landing from "./components/landing";
 
 const store = configureStore();
 

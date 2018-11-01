@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { PoseGroup } from "react-pose";
-import styles from "./dashboard.module.scss";
 
+import styles from "./dashboard.module.scss";
+import { joinClasses } from "../services/classUtils";
 import * as pantryActions from "../store/actions/pantryItems";
 import * as recipeActions from "../store/actions/recipes";
 
@@ -63,16 +64,16 @@ class Dashboard extends Component {
       <div className={styles.Dashboard}>
         <PoseGroup>{currentModal}</PoseGroup>
 
-        <div className={styles.container}>
-          <div className={styles.container__header}>
+        <div className={joinClasses(styles.container, styles.containerLeft)}>
+          <header className={styles.container__header}>
             <h1>My Recipes</h1>
             <CreateButton onClick={this.openModal.bind(null, "create-recipe")}>
               New Recipe
             </CreateButton>
-          </div>
+          </header>
           <RecipeContainer className={styles.container__body} />
         </div>
-        <div className={styles.container}>
+        <div className={joinClasses(styles.container, styles.containerRight)}>
           <div className={styles.container__header}>
             <h1>My Pantry</h1>
             <CreateButton

@@ -44,11 +44,11 @@ class RecipeForm extends Component {
     this.setState({ [name]: value });
   }
 
-  onBlur(e) {
-    if (e.target.value === "") {
-      e.target.dataset.index;
-    }
-  }
+  // onBlur(e) {
+  //   if (e.target.value === "") {
+  //     e.target.dataset.index;
+  //   }
+  // }
 
   onChangeIngredient(index, e) {
     const newIngredients = this.state.ingredients.slice();
