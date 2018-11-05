@@ -7,10 +7,12 @@ import {
   SET_RECIPES,
   ADD_RECIPE,
   REMOVE_RECIPE,
-  HOVER_RECIPE,
+  EXPAND_RECIPE,
+  RETURN_TO_LIST_VIEW,
   UPDATE_RECIPE,
   EDIT_RECIPE,
-  FINISH_EDIT
+  FINISH_EDIT,
+  NEW_RECIPE
 } from "../actionTypes";
 
 import apiCall from "../../services/api";
@@ -20,7 +22,6 @@ function normalizeRecipe(recipe) {
   return {
     title: recipe.title,
     ingredients: recipe.ingredients,
-    editing: false,
     id: recipe._id
   };
 }
@@ -88,10 +89,22 @@ export function fetchRecipes(userId) {
   };
 }
 
-export function hoverRecipe(recipe) {
+export function newRecipe() {
   return {
-    type: HOVER_RECIPE,
-    itemId: recipe ? recipe.id : null
+    type: NEW_RECIPE
+  };
+}
+
+export function expandRecipe(itemId) {
+  return {
+    type: EXPAND_RECIPE,
+    itemId
+  };
+}
+
+export function returnToListView() {
+  return {
+    type: RETURN_TO_LIST_VIEW
   };
 }
 
@@ -99,6 +112,12 @@ export function editRecipe(itemId) {
   return {
     type: EDIT_RECIPE,
     itemId
+  };
+}
+
+export function finishEdit() {
+  return {
+    type: FINISH_EDIT
   };
 }
 
@@ -112,6 +131,9 @@ export function updateRecipe(userId, itemId, update) {
             type: UPDATE_RECIPE,
             itemId,
             update
+          });
+          dispatch({
+            type: FINISH_EDIT
           });
           resolve(res);
         })

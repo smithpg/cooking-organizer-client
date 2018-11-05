@@ -31,14 +31,14 @@ class App extends Component {
   render(props) {
     return (
       <Provider store={store}>
-        <React.Fragment>
+        <div className="App">
           <Navbar />
 
-          <Router className="App">
+          <Router className="page-content">
             <Dashboard path="/" />
             <Landing path="auth/*" />
           </Router>
-        </React.Fragment>
+        </div>
       </Provider>
     );
   }

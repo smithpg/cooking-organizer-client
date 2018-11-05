@@ -18,17 +18,16 @@
   &:hover {
     background-color: $btn-background;
     color: white;
-
-    /* box-shadow: inset 0 -0.125rem 0 0 rgba(0, 0, 0, 0.1),
-        inset 0 -2px 0 1px rgba(0, 0, 0, 0.1),
-        0 0 5px 0 ${props => props.color || "rgba(0, 0, 0, 0.1)"}; */
-    // outline: none;
   }
 
   &:active {
     transform: translateY(2px);
     box-shadow: inset 0 -0.125rem 0 0 rgba(0, 0, 0, 1),
       inset 0 -2px 0 1px rgba(0, 0, 0, 0.1), 0 0 3px 0 "rgba(0, 0, 0, 0.1)";
+  }
+
+  span {
+    margin-right: 3px;
   }
 }
 
@@ -47,16 +46,6 @@
   }
 }
 
-.delete {
-  @extend .btn;
-  color: $material-red;
-
-  &:hover {
-    background-color: $material-red;
-    color: white;
-  }
-}
-
 .edit {
   @extend .btn;
 
@@ -68,11 +57,37 @@
   }
 }
 
-.close {
-  border: 0;
-  color: $darkgrey;
+.trash {
+  @extend .btn;
+  color: $material-red;
 
   &:hover {
-    color: lighten($darkgrey, 30%);
+    background-color: $material-red;
+    color: white;
   }
+}
+
+.delete {
+  border: 0;
+  background-color: transparent;
+  color: $material-red;
+  margin: 5px;
+
+  &:hover {
+    color: lighten($material-red, 30%);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.deleteLarge {
+  height: 2rem;
+  width: 2rem;
+
+  box-shadow: $d-shadow;
+  border-radius: 50%;
+
+  background-color: lighten($material-red, 40%);
 }

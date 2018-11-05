@@ -2,17 +2,18 @@ import React, { Component } from "react";
 import styles from "./recipeForm.module.scss";
 
 import Input from "./input";
-import Button, { DeleteButton, CloseButton } from "./button";
+import Button, { DeleteButton } from "./button";
 
 class RecipeForm extends Component {
   constructor(props) {
     super(props);
 
-    const { recipe: { title, ingredients } = {} } = props;
+    const { recipe } = props;
+
     this.state = {
       message: "",
-      title: title || "",
-      ingredients: ingredients || []
+      title: recipe ? recipe.title : "",
+      ingredients: recipe ? recipe.ingredients : []
     };
     this.onChange = this.onChange.bind(this);
     this.onChangeIngredient = this.onChangeIngredient.bind(this);
@@ -44,12 +45,6 @@ class RecipeForm extends Component {
     this.setState({ [name]: value });
   }
 
-  // onBlur(e) {
-  //   if (e.target.value === "") {
-  //     e.target.dataset.index;
-  //   }
-  // }
-
   onChangeIngredient(index, e) {
     const newIngredients = this.state.ingredients.slice();
 
@@ -76,7 +71,7 @@ class RecipeForm extends Component {
       this.props.handleSubmit(objToSubmit);
 
       // Reset form to initial state
-      if (!this.props.isEditForm) {
+      if (!this.props.recipe) {
         this.setState({
           message: "",
           title: "",
@@ -127,31 +122,42 @@ class RecipeForm extends Component {
     );
 
     return (
-      <form className={styles.RecipeForm} onSubmit={this.onSubmitAttempt}>
-        {this.state.message ? (
-          <div className="form-error-message">
-            <CloseButton className="dismiss" onClick={this.dismissError} />
-            {this.state.message}
+      <div className={styles.RecipeForm}>
+        <header>
+          <h3>{this.props.recipe ? "Edit Recipe" : "Add a New Recipe"}</h3>
+          <span className={styles.cancel}>
+            <DeleteButton onClick={this.props.closeForm} large />
+          </span>
+          {this.state.message ? (
+            <div className={styles.formErrorMessage}>
+              <DeleteButton
+                className={styles.dismiss}
+                onClick={this.dismissError}
+              />
+              {this.state.message}
+            </div>
+          ) : null}
+        </header>
+
+        <form onSubmit={this.onSubmitAttempt}>
+          <label htmlFor="title">Title</label>
+          <Input
+            type="text"
+            name="title"
+            autoComplete="off"
+            helpText={this.state.message}
+            value={this.state.title}
+            onChange={this.onChange}
+            placeholder="e.g. Tomato Soup"
+          />
+          <div>
+            <label htmlFor="ingredients">Ingredients</label>
+            <ol>{ingredientInputs}</ol>
           </div>
-        ) : null}
 
-        <label htmlFor="title">Title</label>
-        <Input
-          type="text"
-          name="title"
-          autoComplete="off"
-          helpText={this.state.message}
-          value={this.state.title}
-          onChange={this.onChange}
-          placeholder="e.g. Tomato Soup"
-        />
-        <div>
-          <label htmlFor="ingredients">Ingredients</label>
-          <ol>{ingredientInputs}</ol>
-        </div>
-
-        <Button>{this.props.isEditForm ? "Update" : "Add"}</Button>
-      </form>
+          <Button>{this.props.recipe ? "Update" : "Add"}</Button>
+        </form>
+      </div>
     );
   }
 }

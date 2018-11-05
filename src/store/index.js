@@ -7,7 +7,7 @@ export function configureStore() {
   const store = createStore(
     rootReducer,
     compose(
-      applyMiddleware(createDebounce(), thunk),
+      applyMiddleware(thunk),
       window.__REDUX_DEVTOOLS_EXTENSION__
         ? window.__REDUX_DEVTOOLS_EXTENSION__()
         : f => f

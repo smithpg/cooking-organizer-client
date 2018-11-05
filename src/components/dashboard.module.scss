@@ -1,48 +1,20 @@
 @import "../styles/mixins";
 .Dashboard {
-  // margin-top: 40px;
-  height: calc(100vh - 40px);
+  height: 100%;
   width: 100vw;
+  padding: 10px;
 
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
 
   perspective: 1000px;
-  .container {
-    height: 100%;
-  }
 
-  .containerLeft {
-    width: 30%;
-
-    & > header {
-      padding: 5px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      height: 10%;
-    }
-
-    & > div {
-      height: 90%;
-    }
-  }
-
-  .containerRight {
-    width: 70%;
-  }
-
-  ul {
-    width: 100%;
-    list-style: none;
-  }
-
-  @media (max-width: 800px) {
+  @media (max-width: 400px) {
     flex-direction: column;
-
-    .container {
-      width: 100%;
-    }
+    align-items: center;
+    width: 100%;
   }
 }
 

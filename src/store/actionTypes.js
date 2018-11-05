@@ -14,9 +14,11 @@ export const REMOVE_HIGHLIGHTS = "REMOVE_HIGHLIGHTS";
 
 export const FETCH_RECIPES = "FETCH_RECIPES";
 export const SET_RECIPES = "SET_RECIPES";
+export const NEW_RECIPE = "NEW_RECIPE";
 export const ADD_RECIPE = "ADD_RECIPE";
 export const REMOVE_RECIPE = "REMOVE_RECIPE";
-export const HOVER_RECIPE = "HOVER_RECIPE";
+export const EXPAND_RECIPE = "EXPAND_RECIPE";
+export const RETURN_TO_LIST_VIEW = "RETURN_TO_LIST_VIEW";
 export const UPDATE_RECIPE = "UPDATE_RECIPE";
 export const EDIT_RECIPE = "EDIT_RECIPE";
 export const FINISH_EDIT = "FINISH_EDIT";

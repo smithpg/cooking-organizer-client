@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import posed, { PoseGroup } from "react-pose";
 import styles from "./pantryItemPane.module.scss";
 import { connect } from "react-redux";
-import _ from "lodash";
 
 import * as pantryActions from "../store/actions/pantryItems";
 
-import Modal from "./modal";
 import Input from "./input";
 import { CreateButton } from "./button";
 import PantryItemForm from "./pantryItemForm";
@@ -14,12 +12,29 @@ import PantryItem from "./pantryItem";
 
 // const PosedItem = posed(PantryItem)({
 //   enter: {
-//     opacity: 1
+//     opacity: 1,
+//     scale: 1
 //   },
 //   exit: {
-//     opacity: 0
+//     opacity: 0,
+//     scale: 0
 //   }
 // });
+
+// const PosedList = ({ items, handleDelete, query }) => (
+//   <PoseGroup>
+//     {items.map((item, i) => (
+//       <PosedItem
+//         key={item.id}
+//         i={i}
+//         item={item}
+//         handleDelete={handleDelete}
+//         highlighted={item.highlighted}
+//         query={query}
+//       />
+//     ))}
+//   </PoseGroup>
+// );
 
 /**
  *  For some reason that is not clear to me, PantryItem components that
@@ -33,10 +48,12 @@ import PantryItem from "./pantryItem";
 
 const PosedSpan = posed.span({
   enter: {
-    opacity: 1
+    opacity: 1,
+    scale: 1
   },
   exit: {
-    opacity: 0
+    opacity: 0,
+    scale: 0
   }
 });
 
@@ -61,16 +78,8 @@ class PantryItemPane extends Component {
     super(props);
 
     this.state = {
-      query: "",
-      modal: false
+      query: ""
     };
-
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-
-    this.filterByQuery = this.filterByQuery.bind(this);
-    this.shiftHighlighted = this.shiftHighlighted.bind(this);
-    this.onChange = this.onChange.bind(this);
 
     this.boundDeletePantryItem = this.props.deletePantryItem.bind(
       null,
@@ -78,60 +87,46 @@ class PantryItemPane extends Component {
     );
   }
 
-  openModal() {
-    this.setState({ ...this.state, modal: true });
-  }
-
-  closeModal() {
-    this.setState({ ...this.state, modal: false });
-  }
-
-  shiftHighlighted(items) {
-    return _.flatten(_.partition(items, i => i.highlighted));
-  }
-
-  filterByQuery(items) {
+  filterByQuery = items => {
     return items.filter(item =>
       item.name.toUpperCase().includes(this.state.query.toUpperCase())
     );
-  }
+  };
 
-  onChange(e) {
+  onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-  }
+  };
+
+  handleDelete = itemId =>
+    this.props.deletePantryItem(this.props.currentUser.id, itemId);
+
+  handleSubmit = objToSubmit => {
+    this.props.createPantryItem(this.props.currentUser.id, objToSubmit);
+  };
 
   render() {
-    const { pantryItems, createPantryItem, currentUser } = this.props,
-      { query, modal } = this.state;
+    const { pantryItems } = this.props,
+      { query } = this.state;
 
     return (
       <div className={styles.PantryItemPane}>
         <header>
           <h1>My Pantry</h1>
-          <CreateButton onClick={this.openModal}>New Pantry Item</CreateButton>
+          <PantryItemForm handleSubmit={this.handleSubmit} />
+          <div className={styles.queryInput}>
+            <label htmlFor="query">Filter Items:</label>
+            <Input
+              name="query"
+              type="text"
+              onChange={this.onChange}
+              placeholder="..."
+            />
+          </div>
         </header>
-        <div className={styles.queryInput}>
-          <label htmlFor="query">Filter Items:</label>
-          <Input
-            name="query"
-            type="text"
-            onChange={this.onChange}
-            placeholder="..."
-          />
-        </div>
         <section className={styles.itemList}>
-          <PoseGroup animateOnMount>
-            {modal && (
-              <Modal closeModal={this.closeModal} headerText="Add Pantry Items">
-                <PantryItemForm
-                  handleSubmit={createPantryItem.bind(null, currentUser.id)}
-                />
-              </Modal>
-            )}
-          </PoseGroup>
           <PosedList
             items={this.filterByQuery(pantryItems)}
-            handleDelete={this.boundDeletePantryItem}
+            handleDelete={this.handleDelete}
             query={query}
           />
         </section>

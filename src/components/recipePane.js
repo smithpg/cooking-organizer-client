@@ -4,79 +4,145 @@ import styles from "./recipePane.module.scss";
 import { connect } from "react-redux";
 
 import * as recipeActions from "../store/actions/recipes";
-import { highlightMatchingPantryItems } from "../store/actions/pantryItems";
+import {
+  highlightMatchingPantryItems,
+  removeHighlights
+} from "../store/actions/pantryItems";
 
-import Modal from "./modal";
 import Recipe from "./recipe";
+import RecipeExpanded from "./recipeExpanded";
 import { CreateButton } from "./button";
 import RecipeForm from "./recipeForm";
 import Input from "./input";
 
+const AnimatedContainer = posed.section({
+  enter: {
+    opacity: 1,
+    x: 0,
+    transition: "linear",
+    duration: 2000
+  },
+  exit: {
+    opacity: 0,
+    x: -10,
+    transition: "linear",
+    duration: 2000
+  }
+});
+
 class RecipePane extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { modal: false };
+  componentDidUpdate(prevProps) {
+    const {
+      highlightMatchingPantryItems,
+      removeHighlights,
+      recipes
+    } = this.props;
 
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.handleHover = this.handleHover.bind(this);
+    if (
+      this.props.recipeInFocus &&
+      this.props.recipeInFocus != prevProps.recipeInFocus
+    ) {
+      const recipeInFocusObj = recipes.find(
+        element => element.id == this.props.recipeInFocus
+      );
 
-    this.boundDeleteRecipe = this.props.deleteRecipe.bind(
-      this,
-      this.props.currentUser.id
-    );
-  }
-
-  openModal() {
-    this.setState({ ...this.state, modal: true });
-  }
-
-  closeModal() {
-    this.setState({ ...this.state, modal: false });
-  }
-
-  handleHover(recipe) {
-    const { hoverRecipe, highlightMatchingPantryItems } = this.props;
-
-    if (recipe) {
-      // dispatch two actions...
-      hoverRecipe(recipe);
-      highlightMatchingPantryItems(recipe.ingredients);
-    } else {
-      hoverRecipe(null);
-      highlightMatchingPantryItems(null);
+      highlightMatchingPantryItems(recipeInFocusObj.ingredients);
+    } else if (!this.props.recipeInFocus && prevProps.recipeInFocus) {
+      removeHighlights();
     }
   }
 
+  deleteRecipe = recipeId => {
+    this.props.deleteRecipe(this.props.currentUser.id, recipeId);
+  };
+
+  expandRecipe = recipe => {
+    this.props.expandRecipe(recipe.id);
+  };
+
+  submitFormNew = objToSubmit => {
+    this.props.createRecipe(this.props.currentUser.id, objToSubmit);
+  };
+
+  submitFormEdit = (recipeId, objToSubmit) => {
+    this.props.updateRecipe(this.props.currentUser.id, recipeId, objToSubmit);
+  };
+
   render() {
-    const { createRecipe, currentUser, recipes } = this.props,
-      { modal } = this.state;
+    const {
+      recipes,
+      newRecipe,
+      editRecipe,
+      returnToListView,
+      finishEdit,
+      recipePaneView,
+      recipeInFocus
+    } = this.props;
+
+    const recipeInFocusObj = recipes.find(
+      element => element.id == recipeInFocus
+    );
+
+    let currentView;
+
+    switch (recipePaneView) {
+      case "LIST":
+        currentView = (
+          <AnimatedContainer key="list">
+            {recipes.map(item => (
+              <Recipe
+                key={item.id}
+                recipe={item}
+                handleDelete={this.deleteRecipe}
+                handleExpand={this.expandRecipe}
+              />
+            ))}
+          </AnimatedContainer>
+        );
+        break;
+      case "EXPANDED":
+        currentView = (
+          <AnimatedContainer key="expanded-view">
+            <RecipeExpanded
+              recipe={recipeInFocusObj}
+              handleDelete={this.deleteRecipe}
+              handleEdit={editRecipe}
+              handleCollapse={returnToListView}
+            />
+          </AnimatedContainer>
+        );
+        break;
+      case "EDIT":
+        currentView = (
+          <AnimatedContainer key="form-edit">
+            <RecipeForm
+              handleSubmit={this.submitFormEdit.bind(null, recipeInFocus)}
+              closeForm={finishEdit}
+              recipe={recipeInFocusObj}
+            />
+          </AnimatedContainer>
+        );
+        break;
+      case "NEW_RECIPE":
+        currentView = (
+          <AnimatedContainer key="form-new">
+            <RecipeForm
+              handleSubmit={this.submitFormNew}
+              closeForm={returnToListView}
+            />
+          </AnimatedContainer>
+        );
+    }
 
     return (
       <div className={styles.RecipePane}>
         <header>
           <h1>My Recipes</h1>
-          <CreateButton onClick={this.openModal}>New Recipe</CreateButton>
+          <CreateButton onClick={newRecipe}>New Recipe</CreateButton>
         </header>
-        <section>
-          <PoseGroup animateOnMount>
-            {modal && (
-              <Modal closeModal={this.closeModal} headerText="Add Recipes">
-                <RecipeForm
-                  handleSubmit={createRecipe.bind(null, currentUser.id)}
-                />
-              </Modal>
-            )}
-            {recipes.map(item => (
-              <Recipe
-                key={item.id}
-                recipe={item}
-                handleDelete={this.boundDeleteRecipe}
-                handleHover={this.handleHover}
-              />
-            ))}
-          </PoseGroup>
-        </section>
+        <div>
+          <PoseGroup animateOnMount>{currentView}</PoseGroup>
+        </div>
       </div>
     );
   }
@@ -88,7 +154,8 @@ function mapStateToProps(state) {
     recipes: state.recipes.items,
     fetching: state.recipes.fetching,
     errors: state.errors,
-    hoveredRecipe: state.recipes.hovered
+    recipeInFocus: state.recipes.recipeInFocus,
+    recipePaneView: state.recipes.recipePaneView
   };
 }
 
@@ -96,6 +163,7 @@ export default connect(
   mapStateToProps,
   {
     ...recipeActions,
-    highlightMatchingPantryItems
+    highlightMatchingPantryItems,
+    removeHighlights
   }
 )(RecipePane);

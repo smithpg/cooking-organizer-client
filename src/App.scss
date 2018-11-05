@@ -1,20 +1,18 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto|Montserrat:200,200i,400,600,700i");
+@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed|Montserrat:200,200i,400,600,700i");
 
 @import "./styles/mixins";
 @import "./styles/vars";
 
 html {
   @include fluid-type();
-  overflow: hidden;
-  // background: linear-gradient(45deg, $highlight-color, $brand);
 }
 
 * {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  font-family: "Montserrat";
-  // font-family: "Roboto", sans-serif;
+  // font-family: "Montserrat";
+  font-family: "Roboto Condensed", sans-serif;
 }
 
 h1,
@@ -22,17 +20,21 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: "Montserrat";
-  // font-style: italic;
   font-weight: 400;
   text-transform: capitalize;
   letter-spacing: 0.1rem;
 }
 
-/* .App {
-  height: 100vh;
+.page-content {
+  height: 92vh;
+  @media (max-width: 400px) {
+    height: auto;
+  }
+}
+
+.App {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  // overflow: hidden;
   background-color: #ffffff;
-} */
+}

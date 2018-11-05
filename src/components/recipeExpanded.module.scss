@@ -1,0 +1,35 @@
+@import "../styles/mixins";
+
+.RecipeExpanded {
+  width: 100%;
+  padding: 0px 25px 25px 25px;
+  position: relative;
+
+  header {
+    position: sticky;
+    top: 0px;
+
+    margin-bottom: 10px;
+    padding: 25px 0px 10px 0px;
+    border-bottom: 1px solid $lightgrey;
+    background-color: white;
+  }
+
+  .cancel {
+    position: absolute;
+    // float: right;
+    z-index: 5;
+    top: 10px;
+    right: 0px;
+  }
+
+  .ingredient {
+    list-style: none;
+    padding: 10px;
+
+    background-color: #eeeeee;
+    &:nth-of-type(even) {
+      background-color: #dddddd;
+    }
+  }
+}

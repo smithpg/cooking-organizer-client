@@ -87,17 +87,10 @@ export function fetchPantryItems(userId) {
 export function highlightMatchingPantryItems(ingredients) {
   return {
     ingredients,
-    type: HIGHLIGHT_ITEMS,
-    meta: {
-      debounce: {
-        time: 400,
-        // The action will be dispatched at the beginning of the debounce and not at the end
-        leading: false,
-        trailing: true
-      }
-    }
+    type: HIGHLIGHT_ITEMS
   };
 }
+
 export function removeHighlights(ingredients) {
   return { type: REMOVE_HIGHLIGHTS };
 }

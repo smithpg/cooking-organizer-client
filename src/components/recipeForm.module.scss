@@ -1,19 +1,39 @@
 @import "../styles/mixins";
 .RecipeForm {
+  padding: 0px 25px 25px 25px;
+
+  position: relative;
+
+  header {
+    position: sticky;
+    top: 0px;
+
+    margin: 10px 0px;
+    padding: 15px 0px;
+    border-bottom: 1px solid $lightgrey;
+    background-color: white;
+  }
+
+  .cancel {
+    position: absolute;
+    top: 10px;
+    right: 0px;
+  }
+
   ol {
     margin-left: 3rem;
   }
 
-  .form-error-message {
+  .formErrorMessage {
     width: auto;
+    margin: 5px 0px;
 
     border-radius: 5px;
-    border: 3px solid red;
     padding: 0.5rem;
 
-    background-color: white;
+    background-color: lighten($material-red, 40%);
 
-    color: red;
+    color: $material-red;
     text-transform: capitalize;
 
     .dismiss {

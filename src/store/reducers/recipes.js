@@ -2,9 +2,11 @@ import {
   FETCH_FAILURE,
   FETCH_RECIPES,
   SET_RECIPES,
+  NEW_RECIPE,
   ADD_RECIPE,
   REMOVE_RECIPE,
-  HOVER_RECIPE,
+  EXPAND_RECIPE,
+  RETURN_TO_LIST_VIEW,
   UPDATE_RECIPE,
   EDIT_RECIPE,
   FINISH_EDIT
@@ -12,8 +14,9 @@ import {
 
 const DEFAULT_STATE = {
   fetching: false,
-  hovered: null,
-  items: []
+  items: [],
+  recipeInFocus: null,
+  recipePaneView: "LIST"
 };
 
 export default (state = DEFAULT_STATE, action) => {
@@ -37,6 +40,13 @@ export default (state = DEFAULT_STATE, action) => {
         items: [...action.items]
       };
 
+    case NEW_RECIPE:
+      return {
+        ...state,
+        recipeInFocus: null,
+        recipePaneView: "NEW_RECIPE"
+      };
+
     case ADD_RECIPE:
       return {
         ...state,
@@ -46,22 +56,35 @@ export default (state = DEFAULT_STATE, action) => {
     case REMOVE_RECIPE:
       return {
         ...state,
+        recipePaneView: "LIST",
+        recipeInFocus: null,
         items: state.items.filter(item => item.id != action.itemId)
       };
 
-    case HOVER_RECIPE:
+    case EXPAND_RECIPE:
       return {
         ...state,
-        hovered: action.itemId
+        recipePaneView: "EXPANDED",
+        recipeInFocus: action.itemId
+      };
+
+    case RETURN_TO_LIST_VIEW:
+      return {
+        ...state,
+        recipePaneView: "LIST",
+        recipeInFocus: null
       };
 
     case EDIT_RECIPE:
       return {
         ...state,
-        items: state.items.map(
-          item =>
-            item.id === action.itemId ? { ...item, editing: true } : item
-        )
+        recipePaneView: "EDIT"
+      };
+
+    case FINISH_EDIT:
+      return {
+        ...state,
+        recipePaneView: "EXPANDED"
       };
 
     case UPDATE_RECIPE:
@@ -69,9 +92,7 @@ export default (state = DEFAULT_STATE, action) => {
         ...state,
         items: state.items.map(
           item =>
-            item.id === action.itemId
-              ? { ...item, ...action.update, editing: false }
-              : item
+            item.id === action.itemId ? { ...item, ...action.update } : item
         )
       };
 

@@ -5,7 +5,7 @@ import { joinClasses } from "../services/classUtils.js";
 
 import styles from "./modal.module.scss";
 
-import { CloseButton } from "./button";
+import { DeleteButton } from "./button";
 
 const ModalContent = posed.div({
   enter: {
@@ -26,7 +26,7 @@ const Modal = ({ closeModal, children, headerText, hostRef }) => {
       <ModalContent className={styles.modalContent}>
         <header>
           {headerText}
-          <CloseButton className={styles.closeButton} onClick={closeModal} />
+          <DeleteButton className={styles.closeButton} onClick={closeModal} />
         </header>
         <section>{children}</section>
       </ModalContent>

@@ -1,12 +1,15 @@
 @import "../styles/mixins";
 .RecipePane {
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
   position: relative;
   height: 100%;
-  width: 98%;
-  padding: 0 1%;
+
+  width: 35%;
+
+  @media (max-width: 400px) {
+    width: 95%;
+    height: 500px;
+    margin: 10px 0px;
+  }
 
   & > header {
     display: flex;
@@ -16,9 +19,16 @@
 
     height: 10%;
   }
-  & > section {
+
+  & > div {
     height: 90%;
+  }
+
+  section {
+    height: 100%;
     overflow-y: auto;
     position: relative;
+
+    box-shadow: $d-shadow;
   }
 }
