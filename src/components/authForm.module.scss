@@ -2,13 +2,15 @@
 .AuthForm {
   z-index: 3;
   height: 500px;
-  width: 500px;
-  background-color: white;
+  width: 50%;
+  max-width: 500px;
   padding: 2rem;
+  border: 1px solid $lightgrey;
 
-  border-top: 5px solid gold;
-  border-radius: 5px;
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+  // background-color: white;
+  // border-top: 5px solid gold;
+  // border-radius: 5px;
+  box-shadow: -5px 4px 12px 0px rgba(0, 0, 0, 0.12);
   form {
     display: flex;
     flex-direction: column;
@@ -20,6 +22,17 @@
     }
     label {
       width: 10rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    max-width: none;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+
+    form {
+      margin: auto;
     }
   }
 }
