@@ -1,8 +1,8 @@
 /**
  * DEFINE THE API URL HERE
  */
-const apiURL = "https://cooking-organizer.herokuapp.com";
-// const apiURL = "http://localhost:8070";
+// const apiURL = "https://cooking-organizer.herokuapp.com";
+const apiURL = "http://localhost:8070";
 //
 
 export default function apiCall(method, path, data) {

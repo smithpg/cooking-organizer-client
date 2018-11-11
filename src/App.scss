@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed|Montserrat:200,200i,400,600,700i");
+@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed|Adamina:200,200i,400,600,700i");
 
 @import "./styles/mixins";
 @import "./styles/vars";
@@ -11,8 +11,7 @@ html {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  // font-family: "Montserrat";
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Adamina", sans-serif;
 }
 
 h1,
@@ -20,9 +19,14 @@ h2,
 h3,
 h4,
 h5 {
+  font-family: "Adamina", sans-serif;
   font-weight: 400;
   text-transform: capitalize;
   letter-spacing: 0.1rem;
+}
+
+label {
+  font-family: "Roboto Condensed", sans-serif;
 }
 
 .page-content {

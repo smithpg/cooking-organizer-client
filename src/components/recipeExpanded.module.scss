@@ -15,6 +15,17 @@
     background-color: white;
   }
 
+  .buttons {
+    & > *:not(:first-child) {
+      margin-left: 10px;
+    }
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    margin: 0.5rem 0px;
+  }
+
   .cancel {
     position: absolute;
     // float: right;
@@ -26,6 +37,7 @@
   .ingredient {
     list-style: none;
     padding: 10px;
+    text-transform: capitalize;
 
     background-color: #eeeeee;
     &:nth-of-type(even) {

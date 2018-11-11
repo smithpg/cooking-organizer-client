@@ -1,4 +1,16 @@
 @import "../styles/mixins";
+
+@keyframes animateIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
 .RecipeForm {
   padding: 0px 25px 25px 25px;
 
@@ -8,8 +20,9 @@
     position: sticky;
     top: 0px;
 
-    margin: 10px 0px;
-    padding: 15px 0px;
+    margin-bottom: 10px;
+    padding-top: 25px;
+    padding-bottom: 15px;
     border-bottom: 1px solid $lightgrey;
     background-color: white;
   }
@@ -20,13 +33,24 @@
     right: 0px;
   }
 
+  form div {
+    margin: 20px 0px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid $lightgrey;
+  }
+
   ol {
     margin-left: 3rem;
   }
 
+  label {
+    font-family: "Adamina", sans-serif;
+  }
+
   .formErrorMessage {
     width: auto;
-    margin: 5px 0px;
+    margin-top: 15px;
 
     border-radius: 5px;
     padding: 0.5rem;
@@ -34,7 +58,10 @@
     background-color: lighten($material-red, 40%);
 
     color: $material-red;
-    text-transform: capitalize;
+    animation: animateIn 200ms 0s 1;
+    svg {
+      margin-right: 5px;
+    }
 
     .dismiss {
       margin-right: 0.5rem;

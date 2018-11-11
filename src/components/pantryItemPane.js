@@ -114,7 +114,7 @@ class PantryItemPane extends Component {
           <h1>My Pantry</h1>
           <PantryItemForm handleSubmit={this.handleSubmit} />
           <div className={styles.queryInput}>
-            <label htmlFor="query">Filter Items:</label>
+            <label htmlFor="query">Filter Items</label>
             <Input
               name="query"
               type="text"

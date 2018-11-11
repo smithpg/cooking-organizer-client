@@ -1,6 +1,8 @@
 import React from "react";
 import { navigate } from "@reach/router";
 import { connect } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./navbar.module.scss";
 
@@ -12,7 +14,10 @@ import { logout } from "../store/actions/auth";
 const Navbar = ({ currentUser, logout }) => (
   <nav className={styles.Navbar}>
     {/* <img src={logo} className="App-logo" alt="logo" /> */}
-    <h1>Home Cooking Organizer</h1>
+    <div>
+      <FontAwesomeIcon icon={faUtensils} />
+      <h1>Home Cooking Organizer</h1>
+    </div>
 
     {currentUser.isAuthenticated ? (
       <div>

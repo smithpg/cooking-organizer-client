@@ -30,7 +30,7 @@ class RecipeExpanded extends Component {
             <DeleteButton onClick={handleCollapse} large />
           </span>
           <h1>{recipe.title}</h1>
-          <div>
+          <div className={styles.buttons}>
             <TrashButton onClick={() => handleDelete(recipe.id)}>
               Delete Recipe
             </TrashButton>

@@ -7,7 +7,7 @@ $max-h-factor: 1.1;
 
 // Colors
 // $brand: #f96f6f;
-$brand: #6febf9;
+$brand: #333333;
 
 $primary: #ffe100;
 $accent: #17a7ac;
@@ -27,5 +27,5 @@ $btn-background: darken($brand, 10%);
 
 // Default Property Values
 $d-border: 1px solid $lightgrey;
-$d-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+$d-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 0px 10px rgba(0, 0, 0, 0.1);
 $d-radius: 5px;

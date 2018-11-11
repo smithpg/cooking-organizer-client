@@ -140,16 +140,18 @@ class RecipeForm extends Component {
         </header>
 
         <form onSubmit={this.onSubmitAttempt}>
-          <label htmlFor="title">Title</label>
-          <Input
-            type="text"
-            name="title"
-            autoComplete="off"
-            helpText={this.state.message}
-            value={this.state.title}
-            onChange={this.onChange}
-            placeholder="e.g. Tomato Soup"
-          />
+          <div>
+            <label htmlFor="title">Title</label>
+            <Input
+              type="text"
+              name="title"
+              autoComplete="off"
+              helpText={this.state.message}
+              value={this.state.title}
+              onChange={this.onChange}
+              placeholder="e.g. Tomato Soup"
+            />
+          </div>
           <div>
             <label htmlFor="ingredients">Ingredients</label>
             <ol>{ingredientInputs}</ol>

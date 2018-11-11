@@ -1,18 +1,21 @@
 @import "../styles/mixins";
 
 .Recipe {
-  padding: 1rem;
-  margin: 3px;
+  display: block;
+  width: 98%;
+  text-align: left;
+  padding: 1.5rem;
+  margin: 2% auto;
 
   border: 1px solid $lightgrey;
   border-radius: 3px;
   background-color: white;
-  // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
   position: relative;
   z-index: 0;
 
-  will-change: height, transform;
+  cursor: pointer;
+
   &::after {
     content: "";
     position: absolute;
@@ -29,33 +32,44 @@
     opacity: 0;
   }
 
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    transition: opacity 300ms;
+    box-sizing: border-box;
+
+    background-color: rgba(111, 111, 111, 0.156);
+    z-index: -1;
+    opacity: 0;
+
+    transition: all 100ms;
+  }
+
+  transition: all 100ms;
+  // transform: translateY(0px);
   &:hover {
-    // background: linear-gradient(to top, $highlight-color, white);
+    transform: translateY(-3px);
     &::after {
       opacity: 1;
     }
   }
-
-  header {
-    padding: 0.5rem 1rem;
-    background-color: $accent-2;
+  &:active {
+    &::before {
+      opacity: 1;
+      transform: translateX(0px);
+    }
   }
 
   h1 {
+    background-color: $accent-2;
     display: inline;
     font-size: 1.2rem;
     // margin: 1rem 0;
     margin-right: 5px;
-  }
-
-  div {
-    list-style: none;
-    overflow: hidden;
-    // padding: 1rem;
-  }
-
-  .ingredient {
-    text-transform: capitalize;
-    margin: 0.25rem 1rem;
   }
 }
