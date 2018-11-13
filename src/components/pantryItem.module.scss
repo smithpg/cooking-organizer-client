@@ -6,7 +6,6 @@
   // font-size: 0.7rem;
 
   width: 200px;
-  // overflow: hidden;
 
   display: inline-flex;
   justify-content: flex-start;
@@ -15,12 +14,12 @@
   padding: 1rem;
   border: 1px solid $lightgrey;
   border-radius: 3px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
   color: $darkgrey;
   background-color: white;
   position: relative;
-
+  transition: all 200ms;
   &::after {
     content: "";
     position: absolute;
@@ -74,8 +73,8 @@
 
 .highlighted {
   z-index: 3;
+  transform: translateY(-3px);
 
-  // background: linear-gradient(45deg, white, $highlight-color, white);
   &::after {
     opacity: 1;
   }

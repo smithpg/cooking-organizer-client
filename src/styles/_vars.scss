@@ -23,7 +23,7 @@ $material-red: #e53935;
 $material-blue: #1e88e5;
 $material-green: #76ff03;
 
-$btn-background: darken($brand, 10%);
+$btn-background: lighten($brand, 10%);
 
 // Default Property Values
 $d-border: 1px solid $lightgrey;
