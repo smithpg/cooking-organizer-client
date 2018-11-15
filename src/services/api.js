@@ -1,9 +1,12 @@
 /**
  * DEFINE THE API URL HERE
  */
-// const apiURL = "https://cooking-organizer.herokuapp.com";
-const apiURL = "http://localhost:8070";
-//
+
+const hostname = window && window.location && window.location.hostname;
+
+const apiURL = hostname.includes("localhost")
+  ? "http://localhost:8070"
+  : "https://cooking-organizer.herokuapp.com";
 
 export default function apiCall(method, path, data) {
   return new Promise((resolve, reject) => {
